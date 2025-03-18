@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>পরিমাপ সহায়িকা</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    /* Calculator Card */
+    .calculator {
+      max-width: 400px;
+      width: 100%;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      background: #ffffff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-header {
+      background: #007bff;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    /* Input Fields */
+    .form-control {
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Button */
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      background: #007bff;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #0056b3;
+    }
+
+    /* Result Section */
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f8f9fa;
+      text-align: center;
+      font-weight: 600;
+      color: #28a745;
+      animation: slideIn 0.5s ease-in-out;
+    }
+
+    .result-line {
+      margin: 10px 0;
+      font-size: 16px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container calculator multi-tool">
+    <div class="card">
+      <div class="card-header">
+        <h2>পরিমাপ সহায়িকা</h2>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="conversionType" class="form-label">কনভার্সন টাইপ:</label>
+          <select class="form-control" id="conversionType">
+            <option value="mlToChamoch">এমএল থেকে চামচ</option>
+            <option value="chamochToMl">চামচ থেকে এমএল</option>
+            <option value="mlToFota">এমএল থেকে ফোটা</option>
+            <option value="fotaToMl">ফোটা থেকে এমএল</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="inputValue" class="form-label">মান লিখুন:</label>
+          <input type="number" class="form-control" id="inputValue" placeholder="মান লিখুন">
+        </div>
+        <button class="btn btn-primary" onclick="calculateConversion()">ক্যালকুলেট করুন</button>
+        <div class="result" id="conversionResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateConversion() {
+      const conversionType = document.getElementById('conversionType').value;
+      const inputValue = parseFloat(document.getElementById('inputValue').value);
+
+      if (isNaN(inputValue)) {
+        document.getElementById('conversionResult').innerText = "সঠিক মান লিখুন।";
+        return;
+      }
+
+      let result = "";
+      switch (conversionType) {
+        case "mlToChamoch":
+          result = `${inputValue} এমএল = ${(inputValue / 5).toFixed(2)} চামচ`;
+          break;
+        case "chamochToMl":
+          result = `${inputValue} চামচ = ${(inputValue * 5).toFixed(2)} এমএল`;
+          break;
+        case "mlToFota":
+          result = `${inputValue} এমএল = ${(inputValue * 20).toFixed(2)} ফোটা`;
+          break;
+        case "fotaToMl":
+          result = `${inputValue} ফোটা = ${(inputValue / 20).toFixed(2)} এমএল`;
+          break;
+        default:
+          result = "অজানা কনভার্সন টাইপ।";
+      }
+
+      document.getElementById('conversionResult').innerHTML = `
+        <div class="result-line">${result}</div>
+      `;
+    }
+  </script>
+</body>
+</html>
